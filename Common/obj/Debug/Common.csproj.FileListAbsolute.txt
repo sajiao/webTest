@@ -1,0 +1,5 @@
+D:\study\webfront\Common\bin\Debug\Common.dll
+D:\study\webfront\Common\bin\Debug\Common.pdb
+D:\study\webfront\Common\obj\Debug\Common.csprojResolveAssemblyReference.cache
+D:\study\webfront\Common\obj\Debug\Common.dll
+D:\study\webfront\Common\obj\Debug\Common.pdb
