@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+    <title></title>
+    <script src="js/angular.min.js"></script>
+    <script src="js/controller.js"></script>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <style>
+        table, th, td {
+            border: 1px solid grey;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+
+            table tr:nth-child(odd) {
+                background-color: #f1f1f1;
+            }
+
+            table tr:nth-child(even) {
+                background-color: #ffffff;
+            }
+    </style>
+</head>
+<body>
+
+    <div>
+
+        <button ng-click="count = count + 1">Click me!</button>
+
+        <p>{{ count }}</p>
+
+
+        <div ng-controller="personCtrl">
+            First Name: <input type="text" ng-model="firstName"><br>
+            Last Name: <input type="text" ng-model="lastName"><br>
+            <br>
+            Full Name: {{firstName + " " + lastName |  uppercase}}<br>
+            <br>
+            Full Name: {{fullName() |  uppercase}}
+        </div>
+        <br />
+       
+        <ul ng-controller="PhoneListCtrl">
+            <li ng-repeat="phone in phones">
+                <span>{{phone.name}}</span>
+                <p>
+                    {{phone.snippet}}
+                </p>
+            </li>
+
+        </ul>
+        
+        <input type="number" ng-model="quantity"><br />
+        <input type="number" ng-model="price"><br />
+
+        <p>Total = {{ (quantity * price) | currency }}</p>
+
+        <p><input type="text" ng-model="testfiler"></p>
+
+        <div ng-controller="personCtrl">
+            <ul>
+                <li ng-repeat="x in names | filter:testfiler | orderBy:'Country'">
+                    {{ (x.Name | uppercase) + ', ' + x.Country }}
+                </li>
+            </ul>
+            <table>
+                <tr ng-repeat="x in names | filter:testfiler | orderBy:'Country'">
+                    <td>{{ $index + 1d }}</td>
+                    <td>{{ x.Name }}</td>
+                    <td>{{ x.Country  | uppercase }}</td>
+                </tr>
+            </table>
+
+            <table>
+                <tr ng-repeat="x in names">
+                    <td ng-if="$odd" style="background-color:#f1f1f1">{{ x.Name }}</td>
+                    <td ng-if="$even">{{ x.Name }}</td>
+                    <td ng-if="$odd" style="background-color:#f1f1f1">{{ x.Country }}</td>
+                    <td ng-if="$even">{{ x.Country }}</td>
+                </tr>
+            </table>
+        </div>
+       
+
+        <div>
+            <p>
+                <button ng-disabled="mySwitch">Click Me!</button>
+            </p>
+            <p>
+                <input type="checkbox" ng-model="mySwitch" />check
+            </p>
+            <p>
+                {{ mySwitch }}
+            </p>
+        </div>
+
+        <div>
+
+            <p ng-show="true">I am visible.</p>
+
+            <p ng-show="false">I am not visible.</p>
+
+            <p ng-hide="true">I am not visible.</p>
+
+            <p ng-hide="false">I am visible.</p>
+
+
+        </div>
+
+        <div ng-init="hour=13">
+
+            <p ng-show="hour > 12">hour I am visible.</p>
+            <p ng-show="hour > 13"> hourI am not visible.</p>
+
+        </div> 
+    </div>
+
+</body>
+</html>

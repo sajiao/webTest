@@ -1,0 +1,7 @@
+D:\study\webfront\UnitTest\bin\Debug\UnitTest.dll
+D:\study\webfront\UnitTest\bin\Debug\UnitTest.pdb
+D:\study\webfront\UnitTest\bin\Debug\Common.dll
+D:\study\webfront\UnitTest\bin\Debug\Common.pdb
+D:\study\webfront\UnitTest\obj\Debug\UnitTest.csprojResolveAssemblyReference.cache
+D:\study\webfront\UnitTest\obj\Debug\UnitTest.dll
+D:\study\webfront\UnitTest\obj\Debug\UnitTest.pdb

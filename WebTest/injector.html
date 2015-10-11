@@ -1,0 +1,59 @@
+﻿<!DOCTYPE HTML>
+<html lang="zh-cn" ng-app="timeExample">
+<head>
+    <meta charset="UTF-8">
+    <title>injector</title>
+    <style type="text/css">
+        .ng-cloak {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div ng-controller="ClockCtrl" class="ng-cloak">
+        Current time is : {{time.now | date:'yyyy-MM-dd HH:mm:ss : Z'}}
+        <br />
+        距离2016-02-05 23:55:00
+        还有： {{time.gohomeDays}} 天 {{time.gohomeHours}} 小时 {{time.gohomeMinutes}} 分钟 {{time.gohomeSeconds}} 秒
+
+    </div>
+    <script src="js/angular.min.js"></script>
+    <script type="text/javascript">
+        angular.module("timeExample", []).factory("myClock", function ($timeout) {
+            var time = {};
+            (function tick() {
+                time.now = new Date();
+                time.airplane = new Date("2016-2-5 23:55:00");
+
+                var gohomeTotal = (time.airplane - time.now)/1000;
+
+                var days = Math.floor(gohomeTotal / (60 * 60 * 24));
+                
+                var modulo = gohomeTotal % (60 * 60 * 24);
+                
+                var hours = Math.floor(modulo / (60 * 60));
+
+                modulo = modulo % (60 * 60);
+                
+                var minutes = Math.floor(modulo / 60);
+               
+                var seconds = Math.floor(modulo % 60);
+
+                time.gohomeDays = days;
+
+                time.gohomeHours = hours;
+
+                time.gohomeMinutes = minutes;
+
+                time.gohomeSeconds = seconds;
+
+                $timeout(tick, 1000);
+            })();
+            return time;
+        }).controller("ClockCtrl", function ClockCtrl($scope, myClock) {
+            $scope.time = myClock;
+        });
+
+    </script>
+</body>
+</html>

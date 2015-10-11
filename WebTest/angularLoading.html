@@ -1,0 +1,101 @@
+﻿
+<html lang="en" ng-app="myApp">
+<head>
+    <title>Angular Modal Service - Samples</title>
+
+    <script src="vendor/angular/angular.min.js"></script>
+    <link href="vendor/bootstrap/css/bootstrapformshl.css" rel="stylesheet">
+    <script src="vendor/angular/angular-spinners.min.js"></script>
+
+    <link href="vendor/angular/angular-spinners.css" rel="stylesheet">
+
+</head>
+<body>
+    <!--<div ng-controller="booksController">
+        <spinner name="html5spinner">
+            <div class="overlay"></div>
+            <div class="spinner">
+                <div class="double-bounce1"></div>
+                <div class="double-bounce2"></div>
+            </div>
+            <div class="please-wait">Please Wait...</div>
+        </spinner>
+
+
+        <spinner name="booksSpinner" img-src="images/ajax-loader.gif"></spinner>
+        <h3 ng-show="!books">No books.</h3>
+        <ul ng-show="books">
+            <li ng-repeat="book in books">{{book.title}}</li>
+        </ul>
+        <button ng-show="!books" ng-click="loadBooks()">Load Books</button>
+
+        <button ng-click="loadComplete()">Load Complete</button>
+    </div>-->
+
+
+    <div  ng-controller="loginCtrl">
+        <div class="row">
+            <div class="col-xs-12">
+                <form ng-show="!loggedIn" class="well">
+                    <spinner name="html5spinner" ng-cloak="">
+                        <div class="overlay"></div>
+                        <div class="spinner">
+                            <div class="double-bounce1"></div>
+                            <div class="double-bounce2"></div>
+                        </div>
+                        <div class="please-wait">Please Wait...</div>
+                    </spinner>
+                    <div class="form-group">
+                        <label for="exampleInputEmail">Email</label>
+                        <input id="exampleInputEmail" type="email" placeholder="Please enter your email address." ng-model="email" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword">Email</label>
+                        <input id="exampleInputPassword" type="password" placeholder="Please enter your password." ng-model="password" class="form-control" />
+                    </div>
+                    <button type="submit" ng-click="$event.preventDefault(); login();" class="btn btn-default">Login</button>
+                </form>
+                <div ng-show="loggedIn" ng-cloak="" class="alert alert-success text-center">
+                    <span ng-click="loggedIn = false;" class="glyphicon glyphicon-remove pull-right"></span>
+                    <h1>Success!</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+
+
+    angular.module('myApp', ['angularSpinners'])
+  .controller('loginCtrl', function ($scope, $timeout, spinnerService) {
+      $scope.login = function () {
+          spinnerService.show('html5spinner');
+          $timeout(function () {
+              spinnerService.hide('html5spinner');
+              $scope.loggedIn = true;
+          }, 3500);
+      };
+  });
+
+
+    //var myApp = angular.module('myApp', ['angularSpinners']);
+    //myApp.controller('booksController', function ($scope, $http, spinnerService) {
+    //    $scope.loadBooks = function () {
+
+    //        spinnerService.show('html5spinner');
+    //        spinnerService.show('booksSpinner');
+    //        $timeout(function () {
+    //            spinnerService.hide('html5spinner');
+    //            $scope.loggedIn = true;
+    //        }, 2500);
+    //    };
+
+    //    $scope.loadComplete = function () {
+    //        spinnerService.hide('booksSpinner');
+
+    //    };
+    //});
+</script>
+</html>
+

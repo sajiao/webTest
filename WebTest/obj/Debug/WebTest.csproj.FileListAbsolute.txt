@@ -1,0 +1,6 @@
+D:\study\webfront\WebTest\bin\WebTest.dll.config
+D:\study\webfront\WebTest\bin\WebTest.dll
+D:\study\webfront\WebTest\bin\WebTest.pdb
+D:\study\webfront\WebTest\obj\Debug\WebTest.csprojResolveAssemblyReference.cache
+D:\study\webfront\WebTest\obj\Debug\WebTest.dll
+D:\study\webfront\WebTest\obj\Debug\WebTest.pdb

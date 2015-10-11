@@ -1,0 +1,1152 @@
+<%@ Page Language="C#" AutoEventWireup="true"  MasterPageFile="~/MasterPage1.Master" CodeBehind="AppealInputForm.aspx.cs" Inherits="MTS.Online.WebUI.MSHL_APS.AppealInputForm" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
+
+  <script src="../Common/Scripts/angular.min.js"></script>
+<%--  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+--%>
+ <script src="Common/Scripts/AppealFormController.js"></script>
+
+<link rel="stylesheet" href="../Common/Styles/bootstrap/css/bootstrap.css" />
+<script src="../Common/Scripts/jquery-1.6.2.min.js" type="text/javascript"></script>
+<script src="../Common/Styles/bootstrap/js/bootstrap.js"></script>
+
+   <div ng-app="myApp"  ng-controller="appealFormCtrl">
+
+    <div style="width:100%;">
+
+        <div class="row">
+          <div class="col-sm-12 HeaderCell"  style="height:30px; line-height:30px;">Appeal Request</div>
+        </div>
+
+        <div class="row">
+              <div class="col-sm-4">
+                    Appeal Reference Number:
+              </div>
+              <div class="col-sm-6">
+                    <span style="font-weight: bold;">APP/M/XXX/XX/XXXX/XXXXXXXXX</span>
+              </div>
+        </div>
+          <div class="row">
+               
+               <div class="col-sm-4">
+                    Appeal Reference Number:
+              </div>
+              <div class="col-sm-6">
+                  
+                  <label>Click me to toggle: <input type="checkbox" ng-model="disabled"></label>
+
+
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-4">
+                   MP/Appellant Reference Number:
+              </div>
+                 <div class="col-sm-6">
+                     <input type="text" class="form-control"   maxlength="50" ng-disabled ="disabled" />
+                 </div>
+          </div>
+          
+          <div class="row">
+              <div class="col-sm-4">
+                  NRIC:<span class="MandatoryNote">*</span>
+              </div>
+                 <div class="col-sm-6">
+                    <input type="text" ng-model="IDType" class="form-control" ng-disabled="disabled"   maxlength="50" />  <input type="button" value="Check" class="btn btn-default  btn-xs"/>
+                 </div>
+          </div>
+          
+          <div class="row">
+                  <div class="col-sm-4">
+                       Name of Appellant:
+                  </div>
+                  <div class="col-sm-6">
+                     <input type="text" class="form-control"   ng-model="AppellantName"  maxlength="100" />
+                 </div>
+           </div>
+          
+           <div class="row">
+                  <div class="col-sm-4">
+                       NRIC Type:
+                  </div>
+
+                 <div class="col-sm-6">
+                       <div ng-disabled="disableIDType">
+                             <select class="form-control" ng-model="SelectedIdType" disabled>
+                                  <option ng-repeat="item in IDTypes" value="{{item.Code}}">{{item.CodeDescription}}</option>
+                                  
+                             </select>
+                       </div>
+                 </div>
+              </div>
+              
+              
+           <div class="row">
+                  <div class="col-sm-4">
+                       Date of Birth (dd/mm/yyyy):
+                  </div>
+
+                 <div class="col-sm-6">
+                    <asp:Label ID="Label1" runat="server" class="hasDatepicker" data-m="PeopleInfo" data-f="DOB" />
+   <asp:Label ID="Label2" Style="font-weight: bold;"></asp:Label>
+                 </div>
+          </div>
+              
+          <div class="row">
+                  <div class="col-sm-4">
+                     Race:
+                  </div>
+                 <div class="col-sm-4">
+                      <select class="form-control" ng-model="SelectedRace">
+                                  <option ng-repeat="item in Races" value="{{item.Code}}">{{item.CodeDescription}}</option>
+                                  
+                             </select>
+                 </div>
+            
+                  <div class="col-sm-1" style="line-height:25px">
+                    Gender:
+                  </div>
+                 <div class="col-sm-3">
+                     <select class="form-control" ng-model="SelectedGender">
+                                  <option ng-repeat="item in Genders" value="{{item.Code}}">{{item.CodeDescription}}</option>
+                                  
+                             </select>
+                 </div>
+             </div>
+              
+          <div class="row">
+                 <div class="col-sm-4">
+                      Source of Appeal:<span class="MandatoryNote">*</span>
+                  </div>
+                 <div class="col-sm-6">
+                        <select class="form-control" ng-model="SelectedSource">
+                                  <option ng-repeat="item in Sources" value="{{item.Code}}">{{item.CodeDescription}}</option>
+                            </select>
+                 </div>
+             </div>
+
+             <div class="row">
+                 <div class="col-sm-4">
+                      Type of Appeal:<span class="MandatoryNote">*</span>
+                  </div>
+                 <div class="col-sm-6">
+                        <select  class="form-control"  ng-model="SelectedAppealType" style="width:90%;">
+                                  <option ng-repeat="appealType in AppealTypes" value="{{appealType.Code}}">{{appealType.CodeDescription}}</option>
+                                  
+                             </select>
+                 </div>
+             </div>
+
+         <div class="row">
+                 <div class="col-sm-4">
+                      Name of MP:
+                  </div>
+                 <div class="col-sm-6">
+                     <input type="text" class="form-control"  ng-Model ="MPName" maxlength ="100" />
+                       
+                 </div>
+          </div>
+
+        
+         <div class="row">
+                 <div class="col-sm-4">
+                      MP Postal Code:
+                  </div>
+                 <div class="col-sm-6">
+                     <input type="text" class="form-control"  ng-Model ="MPPostalCode" maxlength ="6" />  <input type="button" value="Retrieve" class="btn btn-xs btn-info" /> 
+                       
+                 </div>
+          </div>
+
+         <div class="row">
+                 <div class="col-sm-4">
+                     MP CDC:
+                  </div>
+                 <div class="col-sm-6">
+                      <select class="form-control" style="width:30%;" ng-model="SelectedCDC">
+                                  <option ng-repeat="item in CDCs" value="{{item.Code}}">{{item.CodeDescription}}</option>
+                            </select>
+                       
+                 </div>
+          </div>
+
+        <div class="row">
+                 <div class="col-sm-4">
+                     MP GRC:
+                  </div>
+                 <div class="col-sm-6">
+                      <select class="form-control" style="width:30%;" ng-model="SelectedGRC">
+                                  <option ng-repeat="item in GRCs" value="{{item.Code}}">{{item.CodeDescription}}</option>
+                            </select>
+                       
+                 </div>
+          </div>
+          
+        <div class="row">
+                 <div class="col-sm-4">
+                     MP Division:
+                  </div>
+                 <div class="col-sm-6">
+                       <select class="form-control" style="width:30%;" ng-model="SelectedDivision">
+                                  <option ng-repeat="item in Divisions" value="{{item.Code}}">{{item.CodeDescription}}</option>
+                            </select>
+                       
+                 </div>
+          </div>
+
+         <%--  <div class="row">
+          <input type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" value="Open Modal" />
+        </div>--%>
+    
+           <hr />
+
+          <fieldset class="scheduler-border" style="width:100%">
+                    <legend class="scheduler-border">Receipt Of Appeal</legend>
+              <div class="row">
+                    <div class="col-sm-3">
+                     Date Received:<span class="MandatoryNote">*</span>
+                  </div>
+                 <div class="col-sm-3">
+                        <input type="text" id="dtDAR" data-f="DateOfReceived" />
+                       
+                 </div>
+
+                   <div class="col-sm-2">
+                     Date of Reply: 
+                  </div>
+                 <div class="col-sm-3">
+                        <input type="text" id="dtDAR" data-f="DateOfReceived" />
+                       
+                 </div>
+
+              </div>
+         </fieldset>
+
+         <fieldset class="scheduler-border"  style="width:100%">
+                    <legend class="scheduler-border">Supporting Documents</legend>
+              <div class="row">
+                    <div class="col-sm-3">
+                     Date of Request:
+                  </div>
+                 <div class="col-sm-3">
+                        <input type="text" id="dtDAR" data-f="DateRequestedDoc" />
+                       
+                 </div>
+
+                   <div class="col-sm-2">
+                     Date of Receipt:
+                  </div>
+                 <div class="col-sm-3">
+                        <input type="text" id="dtDAR" data-f="DateReceivedDoc" />
+                       
+                 </div>
+
+              </div>
+         </fieldset>
+
+           <fieldset class="scheduler-border"  style="width:100%">
+                    <legend class="scheduler-border">Reminder for Supporting Documents</legend>
+              <div class="row">
+                    <div class="col-sm-6">
+                    Date of Reminder Letter Sent:
+                  </div>
+                 <div class="col-sm-3">
+                        <input type="text" id="dtDAR" data-f="DateReminderLetterSent" />
+                       
+                 </div>
+                  </div>
+               <div class="row">
+                   <div class="col-sm-6">
+                     Date of Received after sending the Reminder Letter:
+                  </div>
+                 <div class="col-sm-3">
+                        <input type="text" id="dtDAR" data-f="DateReceivedDocFromReminder" />
+                       
+                 </div>
+
+              </div>
+         </fieldset>
+
+         <fieldset class="scheduler-border"  style="width:100%">
+                    <legend class="scheduler-border">SLA</legend>
+              <div class="row">
+                    <div class="col-sm-3">
+                    Total Working Days:
+                  </div>
+                 <div class="col-sm-3">
+                        <span style="font-weight: bold;" data-f="TotalWorkingDays">0</span>
+                       
+                 </div>
+
+                 
+
+              </div>
+         </fieldset>
+
+      </div>
+  
+     <table class="INNERTABLE" border="0" cellspacing="0" cellpadding="5" style="width: 695px;">
+        <tr>
+            <td class="HeaderCell">Appeal Request</td>
+        </tr>
+        <tr>
+            <td>
+                <table cellpadding="5" style="width: 100%">
+                    <tr>
+                        <td>Appeal Reference Number:&nbsp;
+                        </td>
+                        <td colspan="3">
+                            <span id="spnAppealRefNumber" data-f="AppealReferenceNumber" style="font-weight: bold;">APP/M/XXX/XX/XXXX/XXXXXXXXX</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>MP/Appellant Reference Number:
+                        </td>
+                        <td colspan="3">
+                            <input type="text" id="txtMPRefNumber" data-f="MPRefNumber" class="TextBox" maxlength="50" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>NRIC:<span class="MandatoryNote">*</span>
+                        </td>
+                        <td colspan="3">
+
+                            <input type="text" maxlength="20" id="txtNRIC" data-m="PeopleInfo" data-f="IDNum" />&nbsp;
+                            <input type="button" value="Check" class="ShortButton" id="btnCheckNRIC" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Name of Appellant:
+                        </td>
+                        <td colspan="3">
+                            <asp:TextBox ID="AppellantName" CssClass="LongTextBox" Width="355px" MaxLength="100"
+                                runat="server" Enabled="false" data-m="PeopleInfo" data-f="FullName">
+                            </asp:TextBox>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>NRIC Type:
+                        </td>
+                        <td colspan="3">
+                            <asp:DropDownList ID="NRICType" CssClass="DropDownList NRICType" Style="width: auto" data-m="PeopleInfo" data-f="IDType"
+                                runat="server" Enabled="false">
+                                <asp:ListItem Text="Foreign Identification Number"></asp:ListItem>
+                                <asp:ListItem Text="Other Type of Identification(e.g. Foreign Passport/Foreign Birth Cert/Foreign NRIC)"></asp:ListItem>
+                                <asp:ListItem Text="Singapore Blue NRIC holder"></asp:ListItem>
+                                <asp:ListItem Text="Singapore Pink NRIC/BC holder"></asp:ListItem>
+                                <asp:ListItem Text="Special Pass"></asp:ListItem>
+                            </asp:DropDownList>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Date of Birth (dd/mm/yyyy):
+                        </td>
+                        <td>
+                            <asp:Label ID="DOB" runat="server" class="hasDatepicker" data-m="PeopleInfo" data-f="DOB" />
+                        </td>
+                        <td colspan="2">
+                            <asp:Label ID="AgeToday" runat="server" Style="font-weight: bold;"></asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Race:
+                        </td>
+                        <td>
+                            <asp:DropDownList ID="Race" CssClass="DropDownList" runat="server" Enabled="false" data-m="PeopleInfo" data-f="Race">
+                            </asp:DropDownList>
+                        </td>
+                        <td style="text-align: right;">Gender:
+                        </td>
+                        <td>
+                            <asp:DropDownList ID="Gender" CssClass="DropDownList" runat="server" Enabled="false" data-m="PeopleInfo" data-f="Gender">
+                                <asp:ListItem Text="Female" Value="F"></asp:ListItem>
+                                <asp:ListItem Text="Male" Value="M"></asp:ListItem>
+                            </asp:DropDownList>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Source of Appeal:<span class="MandatoryNote">*</span>
+                        </td>
+                        <td colspan="3">
+                            <asp:DropDownList ID="Source" CssClass="DropDownList" runat="server" Width="360px" data-f="Source">
+                            </asp:DropDownList>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Type of Appeal:<span class="MandatoryNote">*</span>
+                        </td>
+                        <td colspan="3">
+
+                            <div id="divAppealType" runat="server" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td nowrap="nowrap">Name of MP:
+                        </td>
+                        <td colspan="3">
+                            <asp:TextBox ID="MPName" CssClass="LongTextBox" MaxLength="100" Width="355px" runat="server" data-f="MPName"></asp:TextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>MP Postal Code:
+                        </td>
+                        <td colspan="3">
+                            <asp:TextBox ID="MPPostalCode" MaxLength="6" runat="server" CssClass="ShortTextBox AddressFields" data-f="MPPostalCode"></asp:TextBox>&nbsp;
+                    <button id="btnRetrieve" class="ShortButton">Retrieve</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>MP CDC:
+                        </td>
+                        <td>
+                            <asp:DropDownList ID="MPCDC" runat="server" CssClass="DropDownList" AutoPostBack="false" data-f="MPCDC">
+                            </asp:DropDownList>
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>MP GRC:
+                        </td>
+                        <td>
+                            <asp:DropDownList ID="MPGRC" runat="server" CssClass="DropDownList" AutoPostBack="false" data-f="MPGRC">
+                            </asp:DropDownList>
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>MP Division:
+                        </td>
+                        <td>
+                            <asp:DropDownList ID="MPDIV" runat="server" CssClass="DropDownList" AutoPostBack="false" data-f="MPDIV">
+                            </asp:DropDownList>
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <hr />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <fieldset>
+                                <legend><strong>Receipt Of Appeal</strong></legend>
+
+                                <table style="width: 100%;">
+                                    <tr style="vertical-align: bottom;">
+                                        <td style="width: 150px;">Date Received:<span class="MandatoryNote">*</span>
+                                        </td>
+                                        <td>
+                                            <input type="text" id="dtDAR" data-f="DateOfReceived" />
+                                        </td>
+                                        <td style="width: 75px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                        <td style="text-align: right;">Date of Reply:&nbsp;&nbsp;</td>
+                                        <td>
+                                            <input type="text" id="dtDR" data-f="DateOfReply" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </fieldset>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <fieldset>
+                                <legend><strong>Supporting Documents</strong></legend>
+                                <table style="width: 100%;">
+                                    <tr style="vertical-align: bottom;">
+                                        <td style="width: 150px;">Date of Request:
+                                        </td>
+                                        <td>
+                                            <input type="text" id="dtDRF" data-f="DateRequestedDoc" disabled="disabled" /></td>
+                                        <td style="width: 65px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                        <td style="text-align: right;">Date of Receipt:&nbsp;&nbsp;
+                                        </td>
+                                        <td>
+                                            <input type="text" id="dtDREF" data-f="DateReceivedDoc" /></td>
+                                    </tr>
+                                </table>
+                            </fieldset>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="4">
+                            <fieldset>
+                                <legend><strong>Reminder for Supporting Documents</strong></legend>
+                                <table style="width: 100%;">
+                                    <tr style="vertical-align: bottom;">
+                                        <td>Date of Reminder Letter Sent:</td>
+                                        <td>&nbsp;&nbsp;&nbsp;</td>
+                                        <td>
+                                            <input type="text" id="dtDRLS" data-f="DateReminderLetterSent" disabled="disabled" />
+                                        </td>
+                                    </tr>
+                                    <tr style="vertical-align: bottom;">
+                                        <td>Date of Received after sending the Reminder Letter:</td>
+                                        <td>&nbsp;&nbsp;&nbsp;</td>
+                                        <td>
+                                            <input type="text" id="dtDRS" data-f="DateReceivedDocFromReminder" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </fieldset>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="4">
+                            <fieldset>
+                                <legend><strong>SLA</strong></legend>
+                                <br />
+                                Total Working Days: <span style="font-weight: bold;" data-f="TotalWorkingDays">0</span>
+                            </fieldset>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="HeaderCell">Contact Details</td>
+        </tr>
+        <tr>
+            <td>
+                <table>
+                    <tr>
+                        <td colspan="5" style="vertical-align: middle;">Household Address
+
+                        <table style="margin-left: 20px;" id="tblHouseholdAddress">
+                            <tbody>
+                                <tr style="vertical-align: middle;">
+                                    <td width="90px">Postal Code:
+                                    </td>
+                                    <td width="200px" class="NMTS_TextDisplay">
+                                        <span id="hPostalCode" data-m="PeopleInfo" data-m2="HouseholdAddress" data-f="ResiPostalCode"></span>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr style="vertical-align: middle;">
+                                    <td>Block:</td>
+                                    <td class="NMTS_TextDisplay">
+                                        <span id="hBlock" data-m="PeopleInfo" data-m2="HouseholdAddress" data-f="ResiBlock"></span>
+                                    </td>
+                                    <td></td>
+                                    <td>CDC:
+                                    </td>
+                                    <td class="NMTS_TextDisplay">
+                                        <span id="hCDC" data-m="PeopleInfo" data-m2="HouseholdAddress" data-f="ResiCDC"></span>
+                                    </td>
+                                </tr>
+                                <tr style="vertical-align: middle;">
+                                    <td>Street:
+                                    </td>
+                                    <td class="NMTS_TextDisplay">
+                                        <span id="hStreet" data-m="PeopleInfo" data-m2="HouseholdAddress" data-f="ResiStreet"></span>
+                                    </td>
+                                    <td></td>
+                                    <td>GRC:
+                                    </td>
+                                    <td class="NMTS_TextDisplay">
+                                        <span id="hGRC" data-m="PeopleInfo" data-m2="HouseholdAddress" data-f="ResiGRC"></span>
+                                    </td>
+                                </tr>
+                                <tr style="vertical-align: middle;">
+                                    <td>Building:</td>
+                                    <td class="NMTS_TextDisplay">
+                                        <span id="hBuilding" data-m="PeopleInfo" data-m2="HouseholdAddress" data-f="ResiBuildingName"></span></td>
+                                    <td>&nbsp;</td>
+                                    <td>Division:</td>
+                                    <td class="NMTS_TextDisplay"><span id="hDivision" data-m="PeopleInfo" data-m2="HouseholdAddress" data-f="ResiDivison"></span></td>
+                                </tr>
+                                <tr style="vertical-align: middle;">
+                                    <td>Level:
+                                    </td>
+                                    <td class="NMTS_TextDisplay">
+                                        <span id="hLevel" data-m="PeopleInfo" data-m2="HouseholdAddress" data-f="ResiLevel"></span>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="NMTS_TextDisplay"></td>
+                                </tr>
+                                <tr style="vertical-align: middle;">
+                                    <td>Unit:
+                                    </td>
+                                    <td class="NMTS_TextDisplay" colspan="4">
+                                        <span id="hUnit" data-m="PeopleInfo" data-m2="HouseholdAddress" data-f="ResiUnit"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </td>
+                    </tr>
+                    <tr id="trMailingAddress" style="display: none;">
+                        <td>Mailing Address Address
+
+                        <table style="margin-left: 20px;" id="tblMailingAddress">
+                            <tbody>
+                                <tr style="vertical-align: middle;">
+                                    <td nowrap="nowrap">Postal Code:
+                                    </td>
+                                    <td nowrap="nowrap" class="NMTS_TextDisplay">
+                                        <input class="ShortTextBox" maxlength="6" type="text" id="mPostalCode" data-m="PeopleInfo" data-m2="HouseholdAddress" data-f="MailPostalCode" />
+                                        <button id="btnRetrieveMailingAddress" class="ShortButton">Retrieve</button>
+                                    </td>
+                                    <td width="200px" class="NMTS_TextDisplay">&nbsp;</td>
+                                    <td nowrap="nowrap">Mobile Tel:</td>
+                                    <td width="200px" class="NMTS_TextDisplay">
+                                        <input type="text" id="mMobileTel" maxlength="15" class="ShortTextBox" data-m="PeopleInfo" data-f="MobileTel" /></td>
+                                </tr>
+                                <tr style="vertical-align: middle;">
+                                    <td>Block:</td>
+                                    <td class="NMTS_TextDisplay">
+                                        <input class="ShortTextBox" type="text" id="mBlock" maxlength="10" data-m="PeopleInfo" data-m2="HouseholdAddress" data-f="MailBlock" />
+                                    </td>
+                                    <td class="NMTS_TextDisplay">&nbsp;</td>
+                                    <td nowrap="nowrap">Home Tel:</td>
+                                    <td class="NMTS_TextDisplay">
+                                        <input type="text" maxlength="15" id="mHomeTel" class="ShortTextBox" data-m="PeopleInfo" data-f="HomeTel" /></td>
+                                </tr>
+                                <tr style="vertical-align: middle;">
+                                    <td>Street:
+                                    </td>
+                                    <td class="NMTS_TextDisplay">
+                                        <input class="LongTextBox" style="width: 150px !important;" type="text" id="mStreet" maxlength="32" data-m="PeopleInfo" data-m2="HouseholdAddress" data-f="MailStreet" />
+                                    </td>
+                                    <td class="NMTS_TextDisplay">&nbsp;</td>
+                                    <td nowrap="nowrap">Email Address</td>
+                                    <td class="NMTS_TextDisplay">
+                                        <input type="text" maxlength="150" id="mEmail" class="ShortTextBox" style="width: 150px !important;" data-m="PeopleInfo" data-f="Email" /></td>
+                                </tr>
+                                <tr style="vertical-align: middle;">
+                                    <td>Building:</td>
+                                    <td class="NMTS_TextDisplay">
+                                        <input class="LongTextBox" style="width: 150px !important;" type="text" id="mBuilding" maxlength="32" data-m="PeopleInfo" data-m2="HouseholdAddress" data-f="MailBuildingName" /></td>
+                                    <td class="NMTS_TextDisplay">&nbsp;</td>
+                                    <td class="NMTS_TextDisplay">&nbsp;</td>
+                                    <td class="NMTS_TextDisplay">&nbsp;</td>
+                                </tr>
+                                <tr style="vertical-align: middle;">
+                                    <td>Level:
+                                    </td>
+                                    <td class="NMTS_TextDisplay">
+                                        <input class="ShortTextBox" type="text" id="mLevel" maxlength="3" data-m="PeopleInfo" data-m2="HouseholdAddress" data-f="MailLevel" />
+                                    </td>
+                                    <td class="NMTS_TextDisplay">&nbsp;</td>
+                                    <td class="NMTS_TextDisplay">&nbsp;</td>
+                                    <td class="NMTS_TextDisplay">&nbsp;</td>
+                                </tr>
+                                <tr style="vertical-align: middle;">
+                                    <td>Unit:
+                                    </td>
+                                    <td class="NMTS_TextDisplay">
+                                        <input class="ShortTextBox" type="text" id="mUnit" maxlength="5" data-m="PeopleInfo" data-m2="HouseholdAddress" data-f="MailUnit" />
+                                    </td>
+                                    <td class="NMTS_TextDisplay">&nbsp;</td>
+                                    <td class="NMTS_TextDisplay">&nbsp;</td>
+                                    <td class="NMTS_TextDisplay">&nbsp;</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="HeaderCell">Household Member(s) Information</td>
+        </tr>
+        <tr>
+            <td>
+                <div style="width: 680px; overflow-x: scroll;">
+                    <table cellspacing="1" cellpadding="5" border="0" id="tblHHMInfo" class="table stripe row-border order-column">
+                        <thead>
+                            <tr align="center" style="color: White; background-color: #507CD1; font-weight: bold; vertical-align: middle;">
+                                <th scope="col" rowspan="2">NRIC</th>
+                                <th scope="col" rowspan="2">NRIC TYPE</th>
+                                <th scope="col" rowspan="2">Full Name</th>
+                                <th scope="col" rowspan="2">DOB</th>
+                                <th scope="col" rowspan="2">Race</th>
+                                <th scope="col" rowspan="2">Gender</th>
+                                <th scope="col" rowspan="2">Opt Out</th>
+
+                                <th class="restricted" scope="col" rowspan="2">Proxy</th>
+
+                                <th class="restricted forCallCentre " scope="col" colspan="7">Current MT</th>
+
+                                <th class="restricted " scope="col" rowspan="2">Exclusion Reason</th>
+                                <th class="restricted " scope="col" rowspan="2">Dual Citizen</th>
+
+                                <th class="restricted " scope="col" rowspan="2">MT CE Indicator</th>
+
+                                <th class="restricted forCallCentre" scope="col" colspan="2">Demise Information</th>
+
+                                <th class="restricted" scope="col" colspan="2">Telephone Number</th>
+                                <th class="restricted" scope="col" rowspan="2">Email</th>
+
+                                <th class="restricted" scope="col" colspan="5">Mailing Address</th>
+                            </tr>
+                            <tr align="center" style="color: White; background-color: #507CD1; font-weight: bold;">
+
+                                <th class="restricted forCallCentre" scope="col">Creation Date</th>
+                                <th class="restricted forCallCentre" scope="col">Start Date</th>
+                                <th class="restricted forCallCentre" scope="col">End Date</th>
+                                <th class="restricted forCallCentre" scope="col">Outcome Reason</th>
+                                <th class="restricted forCallCentre" scope="col">MT Band</th>
+                                <th class="restricted forCallCentre" scope="col">AV</th>
+                                <th class="restricted forCallCentre" scope="col">PCHI </th>
+
+                                <th class="restricted forCallCentre" scope="col">Indicator</th>
+                                <th class="restricted forCallCentre" scope="col">Date</th>
+
+                                <th class="restricted" scope="col">Residential</th>
+
+                                <th class="restricted" scope="col">Mobile</th>
+
+                                <th class="restricted" scope="col">Block</th>
+                                <th class="restricted" scope="col">Street</th>
+                                <th class="restricted" scope="col">Level</th>
+                                <th class="restricted" scope="col">Unit</th>
+                                <th class="restricted" scope="col">Postal Code</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <br />
+                <br />
+            </td>
+        </tr>
+
+        <tr class="restricted" style="vertical-align: middle;">
+            <td class="HeaderCell">Household Member(s) Income Information
+                <div style="float: right;">
+                    <button id="btnQueryIncome">Query Income</button>
+                </div>
+            </td>
+        </tr>
+        <tr class="restricted">
+            <td>
+                <div id="progressbar" style="display: none;">
+                    <div class="progress-label">Loading Income Information...</div>
+                </div>
+
+                <fieldset style="margin-top: 15px; display: none;" id="divIncomeCPFB">
+                    <legend><strong>Latest CPFB Income</strong></legend>
+                    <br />
+
+                    <div style="width: 680px; overflow-x: scroll;">
+                        <span class=""><strong>Gross Employment Monthly Income</strong></span>
+                        <table id="tblIncomeCPFB" class="table">
+                        </table>
+                    </div>
+                    <br />
+                    <div>
+                        <span class=""><strong>CPF Net Trade Income (for Self-Employed, if any)</strong></span>
+                        <table id="tblIncomeCPFBNetTrade" class="table">
+                        </table>
+                    </div>
+                </fieldset>
+
+                <fieldset id="divIncomeMOM" style="margin-top: 15px; display: none;">
+                    <legend><strong>Latest MOM Income</strong></legend>
+                    <div style="width: 680px; overflow-x: auto;">
+                        <table id="tblIncomeMOM" class="table">
+                            <thead>
+                                <tr>
+                                    <td>NRIC</td>
+                                    <td>Name</td>
+                                    <td>Last MOM Income</td>
+                                    <td>Update Date</td>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </fieldset>
+
+                <fieldset id="divIncomeIRAS" style="margin-top: 15px; display: none;">
+                    <legend><strong>Latest IRAS Income</strong></legend>
+                    <div style="width: 680px; overflow-x: scroll;">
+                        <table id="tblIncomeIRAS" class="table">
+                            <thead>
+                                <tr>
+                                    <td>NRIC</td>
+                                    <td>Name</td>
+                                    <td>Year Of Assessment</td>
+                                    <td>Annual Total Employment Income</td>
+                                    <td>Annual Net Employment Income</td>
+                                    <td>Annual Net Rental Income</td>
+                                    <td>Annual Gross Trade Income</td>
+                                    <td>Annual Net Trade Income</td>
+                                    <td>Annual Net Assessible Income</td>
+                                    <td>Other Income</td>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </fieldset>
+
+                <fieldset id="divIncomeMANUAL" style="margin-top: 15px;">
+                    <legend><strong>Manual Income</strong></legend>
+                    <div style="width: 680px; overflow-x: scroll;">
+                        <table id="tblIncomeMANUAL" class="table">
+                            <thead>
+                                <tr>
+                                    <td>NRIC</td>
+
+                                    <td>Name</td>
+                                    <td>Manual Monthly Income</td>
+                                    <td>Remarks</td>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </fieldset>
+
+                <br />
+                <br />
+            </td>
+        </tr>
+
+        <tr class="restricted">
+            <td class="HeaderCell">Overriding Information</td>
+        </tr>
+        <tr class="restricted">
+            <td>
+                <table>
+
+                    <tr>
+                        <td>
+
+                            <fieldset>
+                                <legend><span style="font-weight: bold">PCHI</span></legend>
+                                <input type="text" disabled="disabled" name="txtPCI" id="txtPCI" data-f="OverridingPCHI" title="PCHI = Total monthly income(of selected members) / Total number of selected members" />
+                            </fieldset>
+                            <br />
+
+                            <fieldset>
+                                <legend><span style="font-weight: bold;">Overrriding AV </span></legend>
+
+                                <br />
+                                <div style="margin-left: 30px; clear: both; margin-bottom: 10px;">
+                                    IRAS AV Value :
+                                <span style="font-weight: bold" id="lblIRASAVCode"></span>-<span style="font-weight: bold" id="lblIRASAVValue"></span>
+                                    <br />
+                                </div>
+
+                                <div style="float: left; margin-left: 30px; margin-right: 30px;">
+                                    Applied AV Band Code :
+                                <select id="ddlAVSubsidyBandRange" data-f="OverridingAppliedAVCode">
+                                    <option value=""></option>
+                                    <option value="AV1">AV <= $13K</option>
+                                    <option value="AV2">$13K &lt; AV &lt;= $21K</option>
+                                    <option value="AV3">AV &gt; $21K</option>
+                                </select>
+                                </div>
+                                <div style="float: left;">
+                                    Applied AV Value :
+                                <input type="text" id="txtAppealAVValue" data-f="OverridingActualAV" />
+                                </div>
+                            </fieldset>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+
+                            <fieldset id="divOverride">
+                                <legend><strong>Appeal Information</strong></legend>
+                                <div style="width: 660px; overflow-x: scroll;">
+                                    <table id="tblOverride" class="table">
+                                        <thead>
+                                            <tr>
+
+                                                <th scope="col" rowspan="2">NRIC</th>
+
+                                                <th scope="col" rowspan="2">Name</th>
+                                                <th scope="col" rowspan="2">Relationship to the Appellant</th>
+                                                <th scope="col" rowspan="2">Current Monthly Income</th>
+                                                <th scope="col" rowspan="2">Income Source</th>
+
+                                                <th scope="col" colspan="5">MT&nbsp; as of Appeal Creation</th>
+
+                                                <th scope="col" colspan="5">Appeal Outcome</th>
+
+                                                <th scope="col" rowspan="2">Chronic Illness</th>
+                                                <th scope="col" rowspan="2">Beyond Chronic</th>
+                                                <th scope="col" rowspan="2">Remarks</th>
+                                            </tr>
+                                            <tr>
+
+                                                <th scope="col">MT Band</th>
+
+                                                <th scope="col">Exclusion Reason</th>
+
+                                                <th scope="col">MT Date</th>
+
+                                                <th scope="col">Start Date</th>
+
+                                                <th scope="col">End Date</th>
+
+                                                <th scope="col">MT Band</th>
+
+                                                <th scope="col">Exclusion Reason</th>
+
+                                                <th scope="col" title="Appeal Approved Date">MT Date</th>
+                                                <th scope="col" title="Default to Received Date editable.">Start Date</th>
+                                                <th scope="col" title="Appeal MT Start Date + 2yrs - not editable">End Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr class="restricted forCallCentre">
+            <td class="HeaderCell">Incomplete</td>
+        </tr>
+        <tr class="restricted forCallCentre">
+            <td>Please select Incomplete Document Type below:<br />
+                <asp:DropDownList ID="ddlIncompleteDocumentType" Width="500px" runat="server" CssClass="DropDownList IncompleteDocument">
+                </asp:DropDownList>
+                <button id="btnAddIncompleteDocument" class="button">Add</button>
+
+                <table id="tblIncompleteDoc" style="width: 100%;">
+                    <tbody></tbody>
+                </table>
+
+                <div style='margin-top: 4px'>
+                </div>
+            </td>
+        </tr>
+
+        <tr class="restricted forCallCentre">
+            <td class="HeaderCell">Application Information</td>
+        </tr>
+        <tr class="restricted forCallCentre">
+            <td>
+                <table cellpadding="5">
+                    <tr>
+                        <td>Created by:
+                        </td>
+                        <td>
+                            <asp:Label ID="lblCreatedBy" runat="server" Style="font-weight: bold;" Text="" data-f="CreatedBy"></asp:Label>
+                        </td>
+                        <td class="auto-style2">&nbsp;</td>
+                        <td class="auto-style3">Date of Creation:
+                        </td>
+                        <td>
+                            <span style="font-weight: bold;" data-f="CreatedTime" class="hasDatepicker"></span></td>
+                    </tr>
+
+                    <tr>
+                        <td>Last Updated by:
+                        </td>
+                        <td>
+                            <asp:Label ID="lblLastUpdatedBy" runat="server" Style="font-weight: bold;" Text="" data-f="LastUpdatedBy"></asp:Label>
+                        </td>
+                        <td class="auto-style2"></td>
+                        <td class="auto-style3">Date Last Updated:</td>
+                        <td>
+                            <span style="font-weight: bold;" data-f="LastUpdatedTime" class="hasDatepicker"></span></td>
+                    </tr>
+                    <tr class="restricted">
+                        <td>Route To:<span class="MandatoryNote">*</span>
+                        </td>
+                        <td colspan="4">
+                            <div id="divRouteTo" runat="server" />
+                        </td>
+                    </tr>
+
+                    <tr class="restricted">
+                        <td class="auto-style1">Appeal Recommendation:<span class="MandatoryNote">*</span>
+                        </td>
+                        <td class="auto-style1" colspan="4">
+                            <asp:DropDownList ID="ddlAppealRecommendation" runat="server" data-f="Recommendation" class="DropDownList" Style="width: 200px;">
+                            </asp:DropDownList>
+                        </td>
+                    </tr>
+
+                    <tr class="restricted">
+                        <td>Appeal Reason:
+                        </td>
+                        <td colspan="4">
+                            <asp:TextBox ID="txtAppealReason" Rows="3" Columns="40" TextMode="MultiLine" data-f="AppealReason" textLength="1000"
+                                runat="server">
+                            </asp:TextBox>
+                        </td>
+                    </tr>
+                    <tr class="restricted">
+                        <td>Date Submitted:</td>
+                        <td>
+
+                            <span data-f="SubmittedTime" class="hasDatepicker"></span>
+                        </td>
+                        <td class="auto-style2">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>Appeal Status:
+                        </td>
+                        <td colspan="3">
+                            <asp:Label ID="lblAppealStatus" runat="server" Text=""></asp:Label>
+                            <asp:DropDownList ID="ddlAppealStatus" data-f="Status" runat="server" CssClass="DropDownList" disabled="disabled" Style="width: 200px;">
+                            </asp:DropDownList>
+                        </td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr class="restricted">
+                        <td>Closed By:
+                            <br />
+                            (Approved/Rejected/Dropped)
+                        </td>
+                        <td>
+                            <span data-f="Approver"></span>
+                        </td>
+                        <td class="auto-style2">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr class="restricted">
+                        <td>Closed Date:
+                        </td>
+                        <td>
+                            <span data-f="ApprovedTime" class="hasDatepicker"></span>
+                        </td>
+                        <td class="auto-style2">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr class="restricted">
+                        <td>Approver Remarks:
+                        </td>
+                        <td colspan="4">
+                            <asp:TextBox ID="txtApproverRemarks" Rows="3" Columns="40" TextMode="MultiLine" data-f="ApproverRemarks" textLength="10000"
+                                runat="server">
+                            </asp:TextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Process Remarks:<span class="MandatoryNote">*</span>
+                        </td>
+                        <td colspan="4">
+                            <asp:TextBox ID="txtProcessRemarks" Rows="3" Columns="40" TextMode="MultiLine" data-f="ProcessRemarks" textLength="10000"
+                                runat="server">
+                            </asp:TextBox>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <hr />
+            </td>
+        </tr>
+
+        <tr>
+            <td class="HeaderCell" align="center">
+
+                <button id="btnSave">Save</button>
+                &nbsp;
+                <button id="btnSubmit">Submit</button>
+                &nbsp;
+                <button id="btnApprove">Supported</button>
+                &nbsp;
+                <button id="btnReject">Not Supported</button>
+                &nbsp;
+                <button id="btnDrop">Drop</button>
+                &nbsp;
+                 <button id="btnUpdate" style="display: none;">Update</button>
+                &nbsp;
+                <button id="btnCancel">Cancel</button>
+            </td>
+        </tr>
+    </table>
+
+    <div id="dlgMTHistory" title="MT History" style="display: none; width: 80%;">
+        <div>
+            <table style="width: 100%;">
+                <thead>
+                    <tr align="center" style="color: White; background-color: #507CD1; font-weight: bold;">
+                        <th scope="col"></th>
+                        <th scope="col">NRIC
+                        </th>
+                        <th scope="col">Household ID
+                        </th>
+                        <th scope="col">Full Name
+                        </th>
+                        <th scope="col">PS MT Band
+                        </th>
+                        <th scope="col">Mean Tested Date
+                        </th>
+                        <th scope="col">MT Start Date
+                        </th>
+                        <th scope="col">MT End Date
+                        </th>
+                        <th scope="col">MT Outcome Reason
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="divMTHistoryButtons">
+            <br />
+            <button id="btnChooseMTHistory">
+                Choose
+            </button>
+            &nbsp;
+            <button id="btnCloseMTHistoryDialog">
+                Cancel
+            </button>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+          <p>Some text in the modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  </div> 
+  
+</asp:Content>

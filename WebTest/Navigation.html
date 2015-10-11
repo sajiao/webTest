@@ -1,0 +1,301 @@
+﻿
+<!DOCTYPE html>
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html class=" js no-touch" lang="en" ng-app="myApp">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>test dropdown list</title>
+    <meta name="description" content="Your page description here">
+    <meta name="author" content="">
+    <!-- css -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    <link href="css/menu.css" rel="stylesheet">
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/custom.js"></script>
+</head>
+
+<script>
+
+    var app = angular.module('myApp', []);
+    app.apiurl = "http://localhost:90/web";
+
+    angular.module('myApp')
+    .filter('isNotEmpty', function () {
+        var bar;
+        return function (obj) {
+            for (bar in obj) {
+                if (obj.hasOwnProperty(bar)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    });
+
+    angular.module('myApp')
+    .filter('isEmpty', function () {
+        var bar;
+        return function (obj) {
+            for (bar in obj) {
+                if (obj.hasOwnProperty(bar)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    });
+
+    app.controller('appealFormCtrl', function ($scope, $http) {
+        $scope.disabled = true;
+
+        $scope.disableIDType = true;
+        $scope.AppealRefNumber = "APP/A/XXX/XX/XXXX/XXXXXXXXX";
+
+
+        $http.get(app.apiurl + "/MSHL_APS/AppealData.aspx?datasource=GetUserMenus")
+         .success(function (response) {
+             $scope.menus = response;
+         });
+
+
+
+    });
+
+
+</script>
+<script>
+
+
+    $(document).ready(function () {
+        $("#test").click(function () {
+         
+            //$.ajax({
+            //    url: "http://localhost:90/web/MSHL_APS/AppealData.aspx?datasource=GetUserMenus",
+            //    dataType:html,
+            //    success: function (response) {
+            //        alert('success');
+            //        $("#myDiv").html(response);
+            //    }
+            //    , error: function ()
+            //    {
+            //        alert("error");
+            //    }
+            //});
+            alert('click');
+
+            $.ajax({
+                url: "http://localhost:90/web/MSHL_APS/AppealData.aspx?datasource=GetUserMenus",
+                method: "GET",
+                beforeSend: function (xhr) {
+                    xhr.overrideMimeType("text/plain; charset=x-user-defined");
+                    alert('send');
+                }
+            })
+              .done(function (data) {
+                  alert('success');
+                  $("#myDiv").html(data);
+              })
+            ;
+        });
+    });
+
+
+</script>
+<body>
+
+    <input type="button" value="test" id="test" />
+    <!-- start header -->
+    <header ng-controller="appealFormCtrl">
+        <div class="container">
+            <div class="navbar navbar-static-top">
+                <div class="navigation" id="navigation">
+                    <nav>
+                        <ul class="nav topnav bold" id="myDiv">
+
+                            <!--<li class="dropdown">
+                                <a href="#">Features</a>
+                                <ul style="display: none;" class="dropdown-menu bold">
+                                    <li><a href="http://www.freshdesignweb.com/3-level-responsive-drop-down-navigation-menu-jquery-css3.html">Typography</a></li>
+                                    <li><a href="http://www.freshdesignweb.com/3-level-responsive-drop-down-navigation-menu-jquery-css3.html">Components</a></li>
+                                    <li><a href="http://www.freshdesignweb.com/3-level-responsive-drop-down-navigation-menu-jquery-css3.html">Icons</a></li>
+                                    <li><a href="http://www.freshdesignweb.com/3-level-responsive-drop-down-navigation-menu-jquery-css3.html">Icon variations</a></li>
+                                    <li class="dropdown">
+                                        <a href="#">4 Sliders <i class="icon-angle-right"></i></a>
+                                        <ul style="display: none;" class="dropdown-menu sub-menu-level1 bold">
+                                            <li><a href="http://www.freshdesignweb.com/3-level-responsive-drop-down-navigation-menu-jquery-css3.html">Lush slider</a></li>
+
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>-->
+                            <li class='dropdown'>
+                                <a href='#'>Administration</a>
+                                <ul class='dropdown-menu bold'>
+                                    <li> <a href='~/Administration/SearchUserAccount.aspx'>Manage User Accounts</a></li>
+                                    <li> <a href='~/Administration/SearchRole.aspx'>Manage Roles</a></li>
+                                    <li> <a href='~/Administration/SearchOrg.aspx'>Manage Organisations</a></li>
+                                    <li> <a href='~/Administration/SearchCodeTable.aspx'>Manage Code Tables</a></li>
+                                    <li> <a href='~/Administration/ViewEventLog.aspx'>View Event Log</a></li>
+                                    <li> <a href='~/Administration/ViewAuditLog.aspx'>View Audit Log</a></li>
+                                </ul>
+                            </li>
+                            <li class='dropdown'>
+                                <a href='#'>PCPS</a>
+                                <ul class='dropdown-menu bold'>
+                                    <li> <a href='~/PCPS/SearchForm.aspx'>Manage PCPS Records</a></li>
+                                    <li> <a href='~/PCPS/CreateForm.aspx'>Add New PCPS Record</a></li>
+                                    <li> <a href='~/PCPS/SearchAppealForm.aspx'>Search for Appeal PCPS Record</a></li>
+                                    <li> <a href='~/PCPS/SearchViewForm.aspx'>Search for View PCPS Record</a></li>
+                                </ul>
+                            </li>
+                            <li class='dropdown'>
+                                <a href='#'>CHAS</a>
+                                <ul class='dropdown-menu bold'>
+                                    <li> <a href='~/CHAS/SearchForm.aspx'>Manage CHAS Record</a></li>
+                                    <li> <a href='~/CHAS/CreateForm.aspx'>Add New CHAS Record</a></li>
+                                    <li> <a href='~/CHAS/SearchAppealForm.aspx'>Search for Appeal CHAS Record</a></li>
+                                    <li> <a href='~/CHAS/SearchViewForm.aspx'>Search for View CHAS Record</a></li>
+                                    <li> <a href='~/CHAS/SearchAIPForm.aspx'>Search for Approval-In-Principle CHAS Record</a></li>
+                                    <li> <a href='~/CHAS/AppealSearch.aspx'>Search for Appeal Statistics Record</a></li>
+                                    <li> <a href='~/CHAS/UpdateDemise.aspx'>Update Demise Information</a></li>
+                                    <li> <a href='~/CHAS/SearchViewFormOptions.aspx'>Search for View CHAS Record(Deleted)</a></li>
+                                    <li> <a href='~/CHAS/SearchMSHLHHCVerificationForm.aspx'>Search for MSHL HHC Verification</a></li>
+                                    <li> <a href='~/CHAS/FinancialInformationAppeal.aspx'>Financial Information Appeal</a></li>
+                                </ul>
+                            </li>
+                            <li class='dropdown'>
+                                <a href='#'>Medifund</a>
+                                <ul class='dropdown-menu bold'>
+                                    <li> <a href='~/Medifund/SearchForm.aspx'>Manage Medifund Records</a></li>
+                                    <li> <a href='~/Medifund/CreateForm.aspx'>Add New Medifund Record</a></li>
+                                </ul>
+                            </li>
+                            <li class='dropdown'>
+                                <a href='#'>MSHL</a>
+                                <ul class='dropdown-menu bold'>
+                                    <li> <a href='~/MSHL_PS/ChangeRequestNewForm.aspx'>New Household Change Request</a></li>
+                                    <li> <a href='~/MSHL_PS/ChangeRequestSearchForm.aspx'>Search for Household Change Request</a></li>
+                                    <li> <a href='~/MSHL_PS/ChangeRequestCallCenterForm.aspx'>Search for Household Information – Call Centre</a></li>
+                                    <li> <a href='~/MSHL_PS/AdminEditForm.aspx'>Admin Edit</a></li>
+                                    <li> <a href='~/MSHL_PS/Appeal/AppealSearchForm.aspx'>Search for Appeal Record</a></li>
+                                    <li> <a href='~/MSHL_PS/OptOutSearchForm.aspx'>Search for Opt Out Record</a></li>
+                                    <li> <a href='~/MSHL_PS/MTSearchTransaction.aspx'>Search for Transaction Record</a></li>
+                                    <li> <a href='~/MSHL_PS/GenerateTempPassword.aspx'>Generate Temp Password</a></li>
+                                    <li> <a href='~/MSHL_PS/PeopleHouseholdTransactRecords.aspx'>Search for Person's Household History</a></li>
+                                    <li class='dropdown'>.
+                                        <a href='#'>Reports<i class='icon-angle-right'></i></a>
+                                        <ul style='display: none;' class='dropdown-menu sub-menu-level1 bold'><li> <a href='~/Reports/MSHL_PS/RPT_AckLetters_ByCategories.aspx'>Acknowledgement Letter by Categories</a></li><li> <a href='~/Reports/MSHL_PS/RPT_AckLetters_ByChangeRequest.aspx'>Acknowledgement Letters by Change Request Reference ID</a></li><li> <a href='~/Reports/MSHL_PS/RPT_OutcomeStatus.aspx'>Outcome Status Reports</a></li><li> <a href='~/Reports/MSHL_PS/RPT_OptoutSearch.aspx'>Opt-Out Reports</a></li><li> <a href='~/Reports/MSHL_PS/RPT_AppealLetters.aspx'>Appeal Letter Reports</a></li><li> <a href='~/Reports/MSHL_PS/RPT_Dashboard.aspx'>Admin Dashboard</a></li><li> <a href='~/Reports/MSHL_PS/RPT_AppealDashboard.aspx'>Appeal Reports</a></li><li> <a href='~/Reports/MSHL_PS/RPT_PeopleProxy.aspx'>Individual Notification Letter</a></li></ul>
+                                    </li>
+                                    <ul style='display: none;' class='dropdown-menu sub-menu-level1 bold'><li> <a href='~/Reports/MSHL_PS/RPT_AckLetters_ByCategories.aspx'>Acknowledgement Letter by Categories</a></li><li> <a href='~/Reports/MSHL_PS/RPT_AckLetters_ByChangeRequest.aspx'>Acknowledgement Letters by Change Request Reference ID</a></li><li> <a href='~/Reports/MSHL_PS/RPT_OutcomeStatus.aspx'>Outcome Status Reports</a></li><li> <a href='~/Reports/MSHL_PS/RPT_OptoutSearch.aspx'>Opt-Out Reports</a></li><li> <a href='~/Reports/MSHL_PS/RPT_AppealLetters.aspx'>Appeal Letter Reports</a></li><li> <a href='~/Reports/MSHL_PS/RPT_Dashboard.aspx'>Admin Dashboard</a></li><li> <a href='~/Reports/MSHL_PS/RPT_AppealDashboard.aspx'>Appeal Reports</a></li><li> <a href='~/Reports/MSHL_PS/RPT_PeopleProxy.aspx'>Individual Notification Letter</a></li></ul>
+                                    <li> <a href='~/MSHL_PS/FrozenHouseholdForm.aspx'>Frozen Household</a></li>
+                                </ul>
+                            </li>
+                            <li class='dropdown'>
+                                <a href='#'>Reports</a>
+                                <ul class='dropdown-menu bold'>
+                                    <li> <a href='~/Reports/CHAS/CHASReports.aspx'>CHAS Reports</a></li>
+                                    <li> <a href='~/Reports/MOH/MOHReports.aspx'>MT Reports</a></li>
+                                    <li> <a href='~/Reports/CHASStatisticalReports/CHASStatisticalReports.aspx'>CHAS Statistical Reports</a></li>
+                                    <li> <a href='~/Reports/NMTS/RPTMT_NMT01.aspx'>Subsidy Change Report</a></li>
+                                    <li> <a href='~/Reports/NMTS/RPTMT_NMT02.aspx'>MT Number By Org and Scheme Report</a></li>
+                                    <li> <a href='~/Reports/NMTS/RPTMT_NMT03.aspx'>FA Number By Org Report</a></li>
+                                    <li class='dropdown'>
+                                        <a href='#'>CHAS Appeal Statistics Reports<i class='icon-angle-right'></i></a>
+                                        <ul style='display: none;' class='dropdown-menu sub-menu-level1 bold'><li> <a href='~/Reports/CHAS/RPTMT_CHAS_APPEAL_01.aspx'>Appeal Report: Cumulative/Weekly/Monthly Statistics</a></li><li> <a href='~/Reports/CHAS/RPTMT_CHAS_APPEAL_02.aspx'>Appeal Report: Detailed Statistics</a></li></ul>
+                                    </li>
+                                    <ul style='display: none;' class='dropdown-menu sub-menu-level1 bold'><li> <a href='~/Reports/CHAS/RPTMT_CHAS_APPEAL_01.aspx'>Appeal Report: Cumulative/Weekly/Monthly Statistics</a></li><li> <a href='~/Reports/CHAS/RPTMT_CHAS_APPEAL_02.aspx'>Appeal Report: Detailed Statistics</a></li></ul>
+                                    <li class='dropdown'>
+                                        <a href='#'>CHAS Letter Reports<i class='icon-angle-right'></i></a>
+                                        <ul style='display: none;' class='dropdown-menu sub-menu-level1 bold'><li> <a href='~/Reports/CHAS/RPTMT_CHAS_LETTER_02.aspx'>Mail Merge for Appeal Letters</a></li></ul>
+                                    </li>
+                                    <ul style='display: none;' class='dropdown-menu sub-menu-level1 bold'><li> <a href='~/Reports/CHAS/RPTMT_CHAS_LETTER_02.aspx'>Mail Merge for Appeal Letters</a></li></ul>
+                                    <li> <a href='~/Reports/NMTS/RPTMT_NMT04.aspx'>Administrator Patching Report</a></li>
+                                    <li> <a href='~/Reports/NMTS/RPTMT_NMT05.aspx'>MT Transaction History Report</a></li>
+                                    <li> <a href='~/Reports/NMTS/RPTMT_NMT06.aspx'>FA Transaction History Report</a></li>
+                                    <li> <a href='~/Reports/NMTS/RPTMT_NMT07.aspx'>CQ Transaction History Report</a></li>
+                                    <li> <a href='~/Reports/NMTS/RPTMT_NMT08.aspx'>Subsidy Report</a></li>
+                                    <li> <a href='~/Reports/NMTS/RPTMT_NMT09.aspx'>CQ-FA Transaction History Report</a></li>
+                                    <li> <a href='~/Reports/NMTS/RPTMT_NMT10.aspx'>NMTS Mega Report</a></li>
+                                    <li> <a href='~/Reports/NMTS/RPTMT_NMT11.aspx'>MT Incomplete Reports</a></li>
+                                    <li> <a href='~/NEFR/DateOfFormReport.aspx'>NEFR Report (Date of Form)</a></li>
+                                    <li> <a href='~/NEFR/EditReport.aspx'>NEFR Report (Edit Global Consent/Authorisation)</a></li>
+                                </ul>
+                            </li>
+                            <li class='dropdown'>
+                                <a href='#'>Means Testing</a>
+                                <ul class='dropdown-menu bold'>
+                                    <li> <a href='~/NMTS/CacheQueryForm.aspx'>New Application/Query</a></li>
+                                    <li> <a href='~/NMTS/CacheQueryFormReferral.aspx'>New Application/Query</a></li>
+                                    <li> <a href='~/NMTS/MTListing.aspx'>Approval Status</a></li>
+                                    <li> <a href='~/NMTS/ViewListing.aspx'>Search For Applicant</a></li>
+                                    <li> <a href='~/NMTS/ViewListingAdmin.aspx'>Search For Applicant (Admin)</a></li>
+                                    <li> <a href='~/NMTS/ViewListingAdminRepository.aspx'>Search For Applicant (Admin Repository)</a></li>
+                                    <li> <a href='~/NMTS/ViewListingTeleCentre.aspx'>Search For Applicant Tele-Centre (Admin)</a></li>
+                                    <li> <a href='~/NMTS/IncompleteListing.aspx'>Incomplete Listing</a></li>
+                                </ul>
+                            </li>
+                            <li class='dropdown'>
+                                <a href='#'>APS</a>
+                                <ul class='dropdown-menu bold'>
+                                    <li> <a href='~/MSHL_APS/FormReceived.aspx'>Form Received</a></li>
+                                    <li> <a href='~/MSHL_APS/SearchAPSForm.aspx'>Search APS Form</a></li>
+                                    <li> <a href='~/MSHL_APS/SearchAPSFormCallCenter.aspx'>Search APS Form - Call Centre</a></li>
+                                    <li> <a href='~/MSHL_APS/AppealStatisticsSearchForm.aspx'>Search for Appeal Statistics Record</a></li>
+                                    <li> <a href='~/MSHL_APS/SearchAppealForm.aspx'>Search Appeal Form</a></li>
+                                    <li> <a href='~/MSHL_APS/AppealApprovalSearchForm.aspx'>Search Appeal Approval</a></li>
+                                    <li class='dropdown'>
+                                        <a href='#'>Reports<i class='icon-angle-right'></i></a>
+                                        <ul style='display: none;' class='dropdown-menu sub-menu-level1 bold'><li> <a href='~/Reports/MSHL_APS/APSAssessmentLetters.aspx'>APS Application Reminder</a></li><li> <a href='~/Reports/MSHL_APS/ApplicationLetters.aspx'>Incomplete Letters</a></li><li> <a href='~/Reports/MSHL_APS/RPTAppealLetters.aspx'>Appeal Letters</a></li><li> <a href='~/Reports/MSHL_APS/RPTMonthlyStats.aspx'>Statistics Report for MOH</a></li><li> <a href='~/Reports/MSHL_APS/RPTAPSStatus.aspx'>Reports by APS Status</a></li><li> <a href='~/Reports/MSHL_APS/RPTFormReceived.aspx'>Reports by Form Received</a></li></ul>
+                                    </li>
+                                    <ul style='display: none;' class='dropdown-menu sub-menu-level1 bold'><li> <a href='~/Reports/MSHL_APS/APSAssessmentLetters.aspx'>APS Application Reminder</a></li><li> <a href='~/Reports/MSHL_APS/ApplicationLetters.aspx'>Incomplete Letters</a></li><li> <a href='~/Reports/MSHL_APS/RPTAppealLetters.aspx'>Appeal Letters</a></li><li> <a href='~/Reports/MSHL_APS/RPTMonthlyStats.aspx'>Statistics Report for MOH</a></li><li> <a href='~/Reports/MSHL_APS/RPTAPSStatus.aspx'>Reports by APS Status</a></li><li> <a href='~/Reports/MSHL_APS/RPTFormReceived.aspx'>Reports by Form Received</a></li></ul>
+                                </ul>
+                            </li>
+                            <li class='dropdown'>
+                                <a href='#'>Financial Assistance</a>
+                                <ul class='dropdown-menu bold'>
+                                    <li> <a href='~/NMTS/CacheQueryFAForm.aspx'>New Application/Query</a></li>
+                                    <li> <a href='~/NMTS/FAListing.aspx'>Approval Status</a></li>
+                                </ul>
+                            </li>
+                            <li class='dropdown'>
+                                <a href='#'>For Administrators Only</a>
+                                <ul class='dropdown-menu bold'>
+                                    <li> <a href='~/NMTS/AdminListing.aspx'>Admin Listing</a></li>
+                                    <li> <a href='~/NMTS/ApprovalListing.aspx'>Approval Listing</a></li>
+                                    <li> <a href='~/NMTS/SearchApplications.aspx'>Search Applications (MT/FA)</a></li>
+                                    <li> <a href='~/NMTS/SearchUserAccountAccessInfo.aspx'>Search User Account Access Information</a></li>
+                                    <li> <a href='~/NEFR/SearchConsent.aspx'>Edit Global Consent/Authorisation</a></li>
+                                    <li> <a href='~/NEFR/SearchRevokeConsent.aspx'>Revoke Global Consent/Authorisation</a></li>
+                                    <li> <a href='~/NEFR/CheckConsent.aspx'>Check Consent</a></li>
+                                    <li> <a href='~/NEFR/SubmitConsent.aspx'>Submit Consent</a></li>
+                                    <li> <a href='~/NEFR/SubmitRelationship.aspx'>Submit Relationship</a></li>
+                                    <li> <a href='~/NEFR/DataMart.aspx'>Data Mart</a></li>
+                                    <li> <a href='~/CHAS/ShowLatestHousehold.aspx'>Show Latest Household</a></li>
+                                    <li> <a href='~/CHAS/SearchNearestClinics.aspx'>Display nearest 6 clinics</a></li>
+                                </ul>
+                            </li>
+
+
+
+                        </ul>
+                    </nav>
+                </div>
+                <!-- end navigation -->
+            </div>
+        </div>
+        </div>
+        </div>
+    </header>
+    <!-- end header -->
+    <!-- javascript
+    ================================================== -->
+
+
+</body>
+</html>

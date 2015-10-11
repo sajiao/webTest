@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+    <title></title>
+
+    <link rel="stylesheet" href="vendor/angular/bootstrapformshl.css" />
+    <script src="vendor/jquery/jquery-1.11.3.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.js"></script>
+
+    <script src="vendor/angular/angular.js"></script>
+
+
+</head>
+<body ng-controller="appealFormCtrl">
+
+    <button type="button" ng-click="open()">Open Modal</button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog" style="width:800px;">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Some text in the modal.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+
+
+        angular.module('myApp',[])
+        .controller('appealFormCtrl', function ($scope, $location, $timeout) {
+            $scope.open = function () {
+                $('#myModal').modal('show');
+            };
+
+        });
+
+
+    </script>
+
+</body>
+</html>
+
